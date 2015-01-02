@@ -11,8 +11,6 @@
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css(.tmp) styles/main.css -->
-    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="bower_components/bootstrap-additions/dist/bootstrap-additions.min.css">
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
   </head>
@@ -22,27 +20,105 @@
     <![endif]-->
 
     <!-- Add your site or application content here -->
-    <div class="container">
-      <div class="header" headroom>
-        <ul class="nav nav-pills pull-right">
-          <li class="active"><a ng-href="#">Home</a></li>
-          <li><a ng-href="#/about">About</a></li>
-          <li><a ng-href="#">Contact</a></li>
-        </ul>
-        <h3 class="text-muted">ngArchetype</h3>
-        <!-- You can use a custom html template with the `data-template` attr -->
-        <button type="button" class="btn btn-lg btn-danger" data-template="tpl/primaryNav.tpl.html" data-placement="left" data-animation="am-slide-left" bs-aside="aside" data-container="body">Custom aside
-            <br>
-              <small>(using data-template)</small>
-            </button>
-      </div>
 
-      <div ng-view=""></div>
+  <!-- headroom js -->
+  <header class="header headroom">
+    <!-- navIcon -->
+    <a id="navIcon" href="#menu" title="Menu" class="menu-link">
+      <span class="line line-1"></span>
+      <span class="line line-2"></span>
+      <span class="line line-3"></span>
+    </a>
+
+    <h3 class="text-muted">ngArchetype</h3>
+    <a ng-href="#">Home</a>
+    <a ng-href="#/about">About</a>
+    <a ng-href="#/contact">Contact</a>
+
+  </header>
+
+
+
+
+  <!-- off canvus nav -->
+  <nav id="menu" role="navigation">
+    <ul class="nav__right">
+      <h3><a href="styleguide.html">Docs</a></h3>
+      <ul>
+        <li><a href="#">Front End Design Principles</a></li>
+        <li><a href="componentAPI.html">Component API</a></li>
+        <li><a href="colorpallet.html">Color-Pallet</a></li>
+      </ul>
+
+    <ul>
+      <li><a href="main.html">main.scss</a></li>
+    </ul>
+
+    <h3><a href="./utilities.html">Utilities</a></h3>
+    <ul>
+      <li><a href="#/u-colorkit">Colorkit</a></li>
+    </ul>
+
+    <h3><a href="#/objects">Objects</a></h3>
+    <ul>
+      <li><a href="#/objects/o-partition">Partition Object</a></li>
+      <li><a href="#/objects/o-button">Button Object</a></li>
+      <li><a href="#/objects/o-alert">Alert Object</a></li>
+      <li><a href="#/objects/o-nav">Nav-Object</a></li>
+      <li><a href="#/objects/o-media">Media-Object</a></li>
+      <li><a href="#/objects/o-close">Close-Object</a></li>
+      <li><a href="#/objects/o-label">Label-Object</a></li>
+    </ul>
+
+    <h3><a href="#/components">Components</a></h3>
+    <ul>
+      <li><a href="#/components/c-typography">Typography</a></li>
+      <li><a href="#/components/c-page">Page</a></li>
+      <li><a href="#/components/c-spacers">Spacers</a></li>
+      <li><a href="#/components/c-quotes">Quotes</a></li>
+      <li><a href="#/components/c-tables">Tables</a></li>
+      <li><a href="#/components/c-rules">Rules</a></li>
+      <li><a href="#/components/c-lists">Lists</a></li>
+      <li><a href="#/components/c-links">Links</a></li>
+      <li><a href="#/components/c-figures">Figures</a></li>
+      <li><a href="#/components/c-code">Code</a></li>
+      <li><a href="#/components/c-media">Media</a></li>
+      <li><a href="#/components/c-forms">Forms</a></li>
+      <li><a href="#/components/c-buttons">Buttons</a></li>
+      <li><a href="#/components/c-close">Close</a></li>
+      <li><a href="#/components/c-alerts">Alerts</a></li>
+      <li><a href="#/components/c-tabs">Tabs</a></li>
+      <li><a href="#/components/c-partitions">Partitions</a></li>
+      <li><a href="#/components/c-labels">Labels</a></li>
+      <li><a href="#/components/c-icons">Icons</a></li>
+    </ul>
+
+    <h3><a href=".//layout.html">Layout</a></h3>
+    <ul>
+      <li><a href="./breakpoints.html">Breakpoints</a></li>
+    </ul>
+
+    <h3><a href="./tests.html">Tests</a></h3>
+
+    </ul>
+  </nav>
+
+      <div class="wrap" id="wrap">
+
+        <!--content-->
+        
+        <div ng-view=""></div>
+
+        <div ui-view></div>
+    
+      </div><!--/wrap-->
+
+
+
 
       <div class="footer">
         <p><span class="glyphicon glyphicon-heart"></span> from the Yeoman team</p>
       </div>
-    </div>
 
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
@@ -71,9 +147,7 @@
     <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
     <script src="bower_components/angular-animate/angular-animate.js"></script>
     <script src="bower_components/angular-touch/angular-touch.js"></script>
-    <script src="bower_components/angular-route/angular-route.js"></script>
-    <script src="bower_components/headroom.js/dist/angular.headroom.min.js"></script>
-    <script src="bower_components/headroom.js/dist/headroom.js"></script>
+    <script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
