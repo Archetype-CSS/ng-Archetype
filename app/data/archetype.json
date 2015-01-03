@@ -1,0 +1,42 @@
+{
+  "name": "archetype",
+  "version": "0.0.1",
+  "modules": {
+    "objects": {
+      "button": {
+        "name": "Archetype-o-button",
+        "github": "https://archetype-css.github.com/Archetype-o-button",
+        "traviurl": "",
+        "travisbadge": "",
+        "gemnasium": "",
+        "codepen": ""
+      }
+    },
+    "components": {
+      "button": {
+        "name": "Archetype-c-button",
+        "github": "https://archetype-css.github.com/Archetype-c-button",
+        "traviurl": "",
+        "travisbadge": "",
+        "gemnasium": "",
+        "codepen": ""
+      }
+    },
+    "utilities": {
+      "clearfix": {
+        "name": "Archetype-u-clearfix",
+        "github": "https://archetype-css.github.com/Archetype-u-clearfix",
+        "traviurl": "",
+        "travisbadge": "",
+        "gemnasium": "",
+        "codepen": ""
+      }
+    }
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "scripts": {
+    "test": "grunt test"
+  }
+}
