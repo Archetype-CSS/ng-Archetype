@@ -1,0 +1,3 @@
+# Objects
+
+This is where the page templates go for each component...examples coming...

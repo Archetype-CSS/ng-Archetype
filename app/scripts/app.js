@@ -1,13 +1,5 @@
 'use strict';
 
-/**
- * @ngdoc overview
- * @name ngArchetypeApp
- * @description
- * # ngArchetypeApp
- *
- * Main module of the application.
- */
 angular
   .module('ngArchetypeApp', [
     'ngAnimate',
@@ -25,7 +17,7 @@ angular
       })
       .state('docs', {
         url: '/docs',
-        templateUrl: 'views/docs.html',
+        templateUrl: '/style-guide/output/views/docs/docs.html',
       })
       .state('components', {
         url: '/components',

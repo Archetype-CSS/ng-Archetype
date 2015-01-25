@@ -1,0 +1,45 @@
+<h1 id="a3-module-guide">A3 Module Guide</h1>
+<h2 id="tldr">Tl;Dr</h2>
+<p>Modules themselves are quite simple, but their use (injection) can be more complex to understand. Since most tutorials on the matter are very basic, this will guide you through a A3 specific example.</p>
+<h2 id="wtf-is-a-module">WTF is a Module?</h2>
+<p>AngularJS provides a method for creating <a href="https://docs.angularjs.org/guide/module">modules</a>. In the Angular world, modules are no more than a way to encapsulate your code into a discreet, reusable unit and give it a name. <a href="https://docs.angularjs.org/guide/controller">Controllers</a>, <a href="https://docs.angularjs.org/guide/module#module-loading-dependencies">config &amp; run blocks</a>, <a href="https://docs.angularjs.org/guide/services">services</a>, <a href="https://docs.angularjs.org/guide/directive">directives</a> etc. may then be added to the module. For more information on modules, see our <a href="https://github.com/GitHubAdmin/abaqis3/blob/master/angular-styleguide.md#modules">A3 Angular Styleguide</a> or the <a href="https://docs.angularjs.org/guide/module">AngularJS Docs</a>.</p>
+<h2 id="nested-modules">Nested Modules</h2>
+<p>A3 is divided into logical units based on features. We try to mirror these units in modules for ease of maintenance. The modules are nested in a heirarchy to imply their relationships. For example, here's part of the module hierarchy:</p>
+<pre><code>/abaqis
+    /assess
+    /analyze
+    /improve
+    /manage
+        /mds
+        /residents
+        /team
+        ...</code></pre>
+<p>In the above example, the residents module (<code>abaqis.manage.residents</code>) and is a dependency of the manage module (<code>abaqis.manage</code>) which, in turn, is a dependency of the main (<code>abaqis</code>) application module.</p>
+<pre class="coffeescript"><code># abqais-module.coffee
+
+angular
+    .module( &quot;abaqis&quot;, [
+        &quot;abaqis.assess&quot;,
+        &quot;abaqis.analyze&quot;,
+        &quot;abaqis.improve&quot;,
+        &quot;abaqis.manage&quot;, # &lt;= manage module
+        ...
+    ])</code></pre>
+<pre class="coffeescript"><code># abqais-manage-module.coffee
+
+angular
+    .module( &quot;abaqis.manage&quot;, [
+        &quot;abaqis.manage.mds&quot;,
+        &quot;abaqis.manage.residents&quot;, # &lt;= residents module
+        &quot;abaqis.manage.team&quot;,
+        ...
+    ])</code></pre>
+<p>By injecting the each module as a dependency to it's respective parent, we expose each child module's assets to the application for bootstrapping. The assets may include:</p>
+<ul>
+<li>sub modules (show, new, edit, list etc)</li>
+<li><a href="https://docs.angularjs.org/guide/controller">controllers</a></li>
+<li><a href="https://docs.angularjs.org/guide/module#module-loading-dependencies">config &amp; run blocks</a> (module specific routes included here)</li>
+<li><a href="https://docs.angularjs.org/guide/directive">directives</a></li>
+<li><a href="https://docs.angularjs.org/guide/providers">providers</a></li>
+<li><a href="https://docs.angularjs.org/guide/filter">filters</a></li>
+</ul>

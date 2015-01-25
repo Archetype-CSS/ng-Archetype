@@ -1,0 +1,21 @@
+<h1 id="stylesheet-testing">Stylesheet Testing</h1>
+<ul>
+<li>Tests are just a &quot;change&quot; notification</li>
+<li>Must be automated</li>
+<li>Goal: identify if the change was what was expected and if the change took place where it was expected. We want to ensure that new code introduced to the system doesn't inadvertantly effect.</li>
+</ul>
+<h1 id="tooling">Tooling</h1>
+<ul>
+<li><a href="https://github.com/Huddle/PhantomCSS">PhantomCSS</a> - built on top of CasperJS and PhantomJS creates screen shots at any screen size, compares them to a previous run and outputs a visual diff of the two images.</li>
+<li><a href="http://hardy.io/">Hardy</a> - automated CSS testing using <a href="http://docs.seleniumhq.org/">Selenium</a> and <a href="http://cukes.info/">Cucumber</a> to run computed style checks.</li>
+</ul>
+<p>wish list: * a way to pass variables from Sass to Hardy?? * see: http://css-tricks.com/making-sass-talk-to-javascript-with-json/ * see: http://hugogiraudel.com/2014/01/20/json-in-sass/ * a way to automate the comparison of diff acceptance...looks like there's conventions for this built into PhantomCSS, also see: <a href="http://cburgmer.github.io/csscritic/">cssCritic</a></p>
+<h2 id="archetype-visual-unit-tests"><a href="/tests.html">Archetype Visual Unit Tests</a></h2>
+<ol start="5" type="1">
+<li>Testable
+<ul>
+<li>Test for coding standard compliance</li>
+<li>Test for visual regression (unit level)</li>
+<li>Test for redundancies</li>
+</ul></li>
+</ol>

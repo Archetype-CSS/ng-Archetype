@@ -1,0 +1,203 @@
+<h1 id="stylesheet-coding-standard">Stylesheet Coding Standard</h1>
+<p>Principles for writing and maintaining stylesheets within an Archetype project</p>
+<h2 id="css-guidelines">CSS Guidelines</h2>
+<p>The purpose of this document is to outline a collection of opinionated best-practices and methodologies for building object-oriented CSS architectures that are both highly scalable and easily maintained. Encapsulation is the key to achieving these objectives of modularity which is why all entities within a design system are defined as components, even ones that are non-visual.</p>
+<h3 id="general-principles">General Principles</h3>
+<h4 id="whitespace-and-comments">Whitespace and Comments</h4>
+<p>The key to portable code is in carefully documenting each component's purpose, how it works, and if necessary its intended markup pattern. Comment sections and subsections are optional, but often not needed when code is segregated into dedication Sass partials. In that case, it is perfectly acceptable to exclusively use the major and minor comment blocks. Major comment blocks should always have a trailing empty line and minor comment blocks should not.</p>
+<ul>
+<li>Remain consistent with your use of whitespace for greater legibility of your code. Never mix spaces and tabs to adjust indentation.</li>
+<li>Use soft-tabs with a two space indent.</li>
+<li>Place comments on their own line directly above the code they document.</li>
+<li>Limit line length the 80 characters</li>
+<li>Whenever necessary, breakup long code blocks into discrete sections</li>
+<li>Avoid adding end-of-line whitespace.</li>
+</ul>
+<p>Example:</p>
+<pre class="sourceCode css"><code class="sourceCode css">
+<span class="co">/**</span>
+<span class="co"> * Section comment block</span>
+<span class="co"> *</span>
+<span class="co"> * Comments that apply to the whole section can go here and even</span>
+<span class="co"> * continue on to the next line if needed</span>
+<span class="co"> *</span>
+<span class="co"> * 1. Numbered comments can also be used to attach a comment to a </span>
+<span class="co"> *    specific line number</span>
+<span class="co"> * 2. Here&#39;s another one.</span>
+<span class="co"> *</span>
+<span class="co"> */</span>
+
+
+<span class="co">/** </span>
+<span class="co"> * Sub-section comment block</span>
+<span class="co"> */</span>
+
+
+<span class="co">/* Basic comment */</span></code></pre>
+<h4 id="object-extension-pointer">Object-Extension Pointer</h4>
+<p>When extending an object within a separate partial, leave a comment pointing to the original base object in order to establish a concrete link between the object and its extension <a href="addendum.md">[13]</a>.</p>
+<p>Example:</p>
+<pre class="sourceCode css"><code class="sourceCode css">
+<span class="co">/**</span>
+<span class="co"> * Foo-Bar</span>
+<span class="co"> *</span>
+<span class="co"> * 1. Extends the .foo object within _foo-object.scss</span>
+<span class="co"> */</span>
+ <span class="fl">.foo--bar</span> <span class="kw">{</span><span class="er">...</span><span class="kw">}</span>      <span class="co">/* 1 */</span></code></pre>
+<h4 id="formating">Formating</h4>
+<ul>
+<li>Use one selector per line in multi-selector rule sets and separate each rule set with a blank line.</li>
+<li>Use one space before the opening brace of a rule set and place the closing brace of a rule set in the same column as the first character of the rule set and use one space after the colon of a declaration.</li>
+<li>Include one declaration per line and one level of indentation for each declaration.</li>
+<li>Use lower-case hex color codes, i.e. <code>#ffffff</code>.</li>
+<li>Use double quotes for quoted attribute values in selectors, i.e. <code>input[type=&quot;checkbox&quot;]</code></li>
+<li>Where allowed, avoid specifying units for zero-values, i.e. <code>margin: 0;</code>.</li>
+<li>Follow every comma with a space for comma-separated property values and include a semi-colon at the end of the last declaration in a declaration block.</li>
+<li>Declarations should be grouped by their function - positioning rules, box-model rules, etc.</li>
+</ul>
+<h5 id="exceptions">Exceptions:</h5>
+<p>Large blocks of single declarations can use a slightly different single-line format. In this case space should be included after the opening brace and before the closing brace.</p>
+<p>Example:</p>
+<pre class="sourceCode css"><code class="sourceCode css">
+  <span class="fl">.selector-1</span> <span class="kw">{</span> <span class="kw">width:</span> <span class="dt">10%</span><span class="kw">;</span> <span class="kw">}</span>
+  <span class="fl">.selector-2</span> <span class="kw">{</span> <span class="kw">width:</span> <span class="dt">20%</span><span class="kw">;</span> <span class="kw">}</span>
+  <span class="fl">.selector-3</span> <span class="kw">{</span> <span class="kw">width:</span> <span class="dt">30%</span><span class="kw">;</span> <span class="kw">}</span></code></pre>
+<p>Long comma-separated property values, such as collections of gradients or shadows, can be arranged across multiple lines in an effort to improve readability and produce more useful diffs <a href="addendum.md">[3]</a>.</p>
+<p>Example:</p>
+<pre class="sourceCode css"><code class="sourceCode css">
+<span class="fl">.selector</span> <span class="kw">{</span>
+  <span class="kw">background-image:</span>
+    linear-gradient(<span class="dt">#FFFCCC</span>),
+    linear-gradient(<span class="dt">#F3C4EC</span>)<span class="kw">;</span>
+  <span class="kw">box-shadow:</span>
+    <span class="dt">1px</span> <span class="dt">1px</span> <span class="dt">1px</span> <span class="dt">#000</span>,
+    <span class="dt">2px</span> <span class="dt">2px</span> <span class="dt">1px</span> <span class="dt">1px</span> <span class="dt">#CCCCCC</span> <span class="dt">inset</span><span class="kw">;</span>
+<span class="kw">}</span></code></pre>
+<h6 id="units">Units</h6>
+<p>When building a responsive design system always try to use relative units to allow system components and font-size to scale to the user's viewport. Use pixels only when you have a really good reason NOT to use em's (or rems with fallback and abstract this into a Sass mixin). Use unit-less line-height. It does not inherit a percentage value of its parent element - it's based on a multiplier of the font-size. Avoid absolute measurements. For example, by using .dropdown-nav li:hover { top: 37px; } you are coding a single point of failure into your interface. Instead, build with flexibility in mind by using .dropdown-nav li:hover { top: 100%; } <a href="addendum.md">[13]</a>. Consider using <a href="http://alistapart.com/article/more-meaningful-typography">Modular Scales</a> to help define your proportional rhythms within your designs. The <a href="https://github.com/Team-Sass/modular-scale">Sassy Modular</a> Scale Ruby Gem makes working with Modular Scales easy. } }</p>
+<blockquote>
+<p>&quot;By using culturally relevant historically pleasing ratios to create modular scales and basing the measurements in our compositions on values from those scales we can achieve a visual harmony not found in layouts that use arbitrary convention or easily divisible numbers.&quot; - <a href="https://twitter.com/nicewebtype">Tim Brown</a></p>
+</blockquote>
+<h4 id="vendor-prefixes">Vendor Prefixes</h4>
+<p>Don’t specify vendor prefixes in the authoring style sheets. The level of browser support you require will change over time (resulting in redundant code in your authoring style sheets). The prefixing of CSS properties can be handled in a couple of lines with an automated tool and will be more accurate than you.<a href="addendum.md">[30]</a></p>
+<h2 id="sass-guidelines">Sass Guidelines</h2>
+<p>The guidelines here should be taken in context with the CSS Guidelines as each of these are inter-related. This document will focus primarily on the usage of Sass to implement OOCSS/SMACSS principles. Without those underlying fundamentals, Sass will only complicate and compound the issues involved in a poorly constructed CSS architecture. Additionally, improper Sass implementation can easily lead to bloated output and lengthy selectors which not only inflates file size, but also causes JavaScript to work less efficiently causing performance issues for end users. The following guidelines are intended to help ensure user centered goals and performance always take precedence over developer convenience when building with Sass.</p>
+<h2 id="general-principles-1">General Principles</h2>
+<ul>
+<li>SCSS syntax is preferred, but always omit file prefixes when including partials to allow for easy conversion between SCSS and Sass syntaxes.</li>
+<li>Use an abstraction layer or library (i.e. Compass) to consistently apply CSS3 vendor prefixes and allow for easy updates.</li>
+<li>Leave your generated CSS file uncompressed until production and monitor it closely to ensure you aren't introducing bloated code or overly verbose selector strings.</li>
+<li>Prefix custom functions and mixins to avoid collisions with other frameworks or plugins.</li>
+<li>Compass image files extension helper and sprite generator is your friend.</li>
+</ul>
+<h3 id="comments">Comments</h3>
+<p>SCSS supports both invisible and visible comments.</p>
+<p>Use // comment syntax to omit comments from output. * Use the standard /* <em>/ CSS comments in your SCSS to keep comments in the CSS output unless output is set to compressed in which case all comments will be stripped out. </em> Use the /<em>! </em>/ comment syntaxto ensure comments will remain regardless of output setting.</p>
+<h4 id="dont-put-markup-patterns-in-comments">Don’t put markup patterns in comments</h4>
+<p>Comments are good. Indeed, writing lots of meaningful comments is encouraged. However, refrain from entering examples of intended markup in the comments of style sheets. They immediately create a scenario where information is likely to become obsolete and confusing. Instead, the template stub that sits alongside the style sheet should provide all the markup. As this template is necessary for the application to function, it is by nature always up to date and provides a more meaningful reference. <a href="addendum.md">[30]</a>.</p>
+<p>~~### Nesting Selectors * Limit nesting to two or three levels deep. Reassess any nesting more than two levels deep. This prevents overly-specific CSS selectors. * Avoid large numbers of nested rules. Break them up when readability starts to be affected. * When nesting, list your parent specific declarations directly under the class selector and then list the indented child selectors * Only use nesting when you intend for nested CSS selectors. * Never emulate HTML structure of a module with SCSS nesting. Mapping Sass selectors directly to your DOM structure creates a brittle architecture that is tightly coupled to the current HTML markup. * Nested parent selectors should be listed directly under the class selector and then indent child selectors <a href="addendum.md">[17]</a>.</p>
+<p>Example:~~</p>
+<pre class="scss"><code>// sass example...</code></pre>
+<h3 id="variables">Variables</h3>
+<ul>
+<li>Use a variable for any repeated CSS value and look for patterns to abstract in order to reinforce maintainabilityas well as consistency.</li>
+<li>Prefix color variables rather than using the specific color namei.e. <span class="math"><em>b</em><em>r</em><em>a</em><em>n</em><em>d</em> − <em>b</em><em>l</em><em>u</em><em>e</em><em>o</em><em>p</em><em>p</em><em>o</em><em>s</em><em>e</em><em>d</em><em>t</em><em>o</em></span>blue.</li>
+<li>When defining a color tonetintor shade of a previously defined color variable the modifier should follow the initial variable name and use -- (double dashes) to represent the modifieri.e. <span class="math"><em>b</em><em>r</em><em>a</em><em>n</em><em>d</em> − <em>b</em><em>l</em><em>u</em><em>e</em> −  − <em>l</em><em>i</em><em>g</em><em>h</em><em>t</em><em>o</em><em>p</em><em>p</em><em>o</em><em>s</em><em>e</em><em>d</em><em>t</em><em>o</em></span>light-brand-blue.</li>
+<li>Avoid explicitly assigning a property to a color variable name. Create two levels of abstraction - the lower level abstraction defines the color name; and the higher level abstraction defines the component property.</li>
+</ul>
+<p>Example:</p>
+<pre class="scss"><code>$brand-gray:            #999999;
+$brand-gray-light:      #E5E5E5;
+
+$nav-color-primary:     $brand-gray;
+$nav-color-secondary:   $brand-gray-light;</code></pre>
+<ul>
+<li>When defining variables, they should appear first at the top of their component's partial file and be grouped by skin and structure.</li>
+<li>'Global' variables, those used by many components within multiple different partial files, should be given their own partial file inside the base/directory for example: <em>color-pallet.scss</em>typography-pallet.scss.</li>
+</ul>
+<h3 id="variable-syntax">Variable Syntax</h3>
+<p>Use the same <a href="https://github.com/Archetype-CSS/Archetype-docs/blob/master/architecture.md#selector-construct">BEM-style syntax</a> used for CSS selectors, i.e. $object__element--property: css-value;. Variable names should list there common properties first followed by unique properties.</p>
+<p>Example:</p>
+<pre class="scss"><code>
+/**
+ * Button Skin Variables
+ */
+$btn--color-bg:                               pink;
+$btn--color-txt:                              pink;
+
+/* Button State Variables */
+
+$btn--color-bg-hover:                         darken($btn--color-bg10%);
+$btn--color-bg-disabled:                      lighten($btn--color-bg25%);
+</code></pre>
+<h3 id="using-mixin">Using <span class="citation" data-cites="mixin">@mixin</span></h3>
+<ul>
+<li>Use a <span class="citation" data-cites="mixin">@mixin</span> when you wish to apply arguments to its code blockwhen you want that chunk of styles to apply to the selectoror when you don't want an additional class in the HTML.</li>
+<li>When writing mixinslimit arguments to 4 unless you have a good reason for additional complexity.</li>
+<li>Use a small number of property-value pairs because they will be output everywhere the mixin is called and potentially bloat your code base.</li>
+<li>Mixins with multiple arguments can be placed on their own line for greater readability.</li>
+<li>As alwaysmonitor the CSS output to ensure it matches the intention of your Sass code.</li>
+</ul>
+<p>Example: ``scss</p>
+<p><span class="citation" data-cites="mixin">@mixin</span> mixin-name( <span class="math"><em>m</em><em>i</em><em>x</em><em>i</em><em>n</em> − <em>a</em><em>r</em><em>g</em>1, </span>mixin-arg2, <span class="math"><em>m</em><em>i</em><em>x</em><em>i</em><em>n</em> − <em>a</em><em>r</em><em>g</em>3, </span>mixin-arg4) { property: <span class="math"><em>m</em><em>i</em><em>x</em><em>i</em><em>n</em> − <em>a</em><em>r</em><em>g</em>1; <em>p</em><em>r</em><em>o</em><em>p</em><em>e</em><em>r</em><em>t</em><em>y</em>: </span>mixin-arg2; property: <span class="math"><em>m</em><em>i</em><em>x</em><em>i</em><em>n</em> − <em>a</em><em>r</em><em>g</em>3; <em>p</em><em>r</em><em>o</em><em>p</em><em>e</em><em>r</em><em>t</em><em>y</em>: </span>mixin-arg4; }</p>
+<p>```</p>
+<h3 id="using-extend">Using <span class="citation" data-cites="extend">@extend</span></h3>
+<ul>
+<li><span class="citation" data-cites="extend">@extend</span> when you want to extend</li>
+<li>Use <span class="citation" data-cites="extend">@extend</span> when no arguments are necessary.</li>
+<li>Be cautious using <span class="citation" data-cites="extend">@extend</span>. Improper usage can easily cause bloated output and/or extremely lengthy selector strings.</li>
+<li>Never nest an <span class="citation" data-cites="extend">@extend</span> within another <span class="citation" data-cites="extend">@extend</span></li>
+<li>Avoid using <span class="citation" data-cites="extend">@extend</span> within a mixin - this can easily lead to nested <span class="citation" data-cites="extend">@extend</span>'s</li>
+<li>Never use <span class="citation" data-cites="extend">@extend</span> for the simplification of (OOCSS) multi-class constructs to build single-class objects. This is dangerous because it can easily produce very bloated output and complicated selector strings. This technique should be avoided until a native browser implementation of <span class="citation" data-cites="extend">@extend</span> is available<a href="addendum.md">[29]</a>.</li>
+</ul>
+<p>Don’t extend anything other than a placeholder selector (e.g. %Placeholder) and don’t place any nested styles within the place holder. It seldom creates the CSS you imagine. <a href="addendum.md">[30]</a></p>
+<p>Example misuse of <span class="citation" data-cites="extend">@extend</span>:</p>
+<pre class="scss"><code>
+//this is a terrible example...produces bloated css...fix this you idiot!!
+.btn-signup {
+  @extend btn;
+  @extend btn--full;
+  @extend btn--large;
+  @extend btn--primary;
+}
+</code></pre>
+<h3 id="using-place-holder-selectors">Using %Place-holder Selectors</h3>
+<p>Use % (the silent selector) when defining a utility class that may not be used - this will keep its code block out of the output until it is extended.</p>
+<h3 id="property-ordering">Property Ordering</h3>
+<p>Consistent ordering of @-rules and properties leads to increased readability and more meaningful diffs.</p>
+<ol type="1">
+<li>Variables</li>
+<li>@-Rules (extends first followed by mixin includes)</li>
+<li>Properties</li>
+<li>State Stylesi.e. &amp;.is-active</li>
+<li>Object Elementsi.e. nav__item</li>
+</ol>
+<p>Example:</p>
+<pre class="scss"><code>.selector {
+  @extend %utility-class;
+  @include mixin-name(mixin-arguments);
+  property: value; 
+  &amp;.is-disabled {
+    @include disabled-mixin(mixin-arguments);
+    property: value;   
+  }
+  &amp; &gt; object__element {
+    @extend %utility-class;
+    property: value;
+  }
+}</code></pre>
+<h3 id="sass-packages-and-modules">Sass Packages and Modules</h3>
+<ul>
+<li>Every Sass module must have a name-space consistently applied as a prefix to avoid collisions with other modules. Prefix should be shortyet descriptive.</li>
+<li>Importing a module should not render any selectors</li>
+<li>A Sass module should be broken up by functionality so that components of the package can be imported separately, i.e. <code>@import &quot;compass/css3&quot;;</code></li>
+<li>Avoid global variables when possible and use name-spaces when they are necessary.</li>
+<li>Use placeholders selectors whenever possible.</li>
+</ul>
+<h3 id="keep-sass-code-as-simple-as-possible">Keep Sass Code as simple as possible</h3>
+<p>a mixin for creating buttons that requires three or more arguments to be passed just to set border styles, background colour and text size is probably a needless over complication. <a href="addendum.md">[30]</a> <a href="addendum.md">[31]</a>.</p>
+<h2 id="always-monitor-css-output">Always monitor CSS output</h2>
+<blockquote>
+<p>&quot;Preprocessors do not output bad code. Bad developers do.&quot; - <a href="http://hugogiraudel.com/">Hugo Giraudel</a></p>
+</blockquote>
+<p>Our beautifully crafted Sass code is never read by the browser. Always keep an eye on it's output, run through it manually, and process with <a href="https://github.com/CSSLint/csslint">CSSlint</a> to catch any troublesome output / selectors / etc.. There are almost always unintended chunks of code. Failure to check the final product you are producing is a sure fire way to create sub-standard CSS files. <a href="addendum.md">[30]</a>.</p>

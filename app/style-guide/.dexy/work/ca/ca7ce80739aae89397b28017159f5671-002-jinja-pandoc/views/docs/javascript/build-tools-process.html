@@ -1,0 +1,41 @@
+<h1 id="a3-front-end-build-tools-process">A3 Front End Build Tools &amp; Process</h1>
+<h2 id="tldr">Tl;Dr</h2>
+<p>The Rails Asset Pipeline is too restrictive for our needs so we killed it. This doc attempts to explain how we now preprocess, concatenate, minify and or move all our front end file resources (HTML, CSS, Javascript, images, fonts, locales etc).</p>
+<h2 id="table-of-contents">Table of Contents</h2>
+<ol type="1">
+<li><a href="#tools">Tools</a></li>
+<li><a href="#build-process">Build Process</a></li>
+<li><a href="#livereload">LiveReload</a></li>
+<li><a href="#having-problems">Having Problems?</a></li>
+</ol>
+<h2 id="tools">Tools</h2>
+<h3 id="node-install-node.js">Node (<a href="http://nodejs.org/download/">install node.js</a>)</h3>
+<p>Node is the foundational tool for the front end build. Our other tools (bower, gulp etc) rely on it. Install node before the following tools.</p>
+<h3 id="node-package-manager-install-npm">Node Package Manager (<a href="http://howtonode.org/introduction-to-npm">install npm</a>)</h3>
+<p>This allows you to manage the various node packages required for our shenanigans. Install this after you install node. Then run <code>npm install</code> to install all the required node packages (listed in the project's <code>package.json</code> file).</p>
+<h3 id="bower-sudo-npm-install--g-bower">Bower (<code>sudo npm install -g bower</code>)</h3>
+<p>We use <a href="http://bower.io">Bower</a> as our front end package manager. For example, the command <code>bower install angular</code> will give us the latest version of angular. Running just <code>bower install</code> will install all required packages (listed in the project's <code>bower.json</code> file).</p>
+<h3 id="gulp-sudo-npm-install--g-gulp">Gulp (<code>sudo npm install -g gulp</code>)</h3>
+<p><a href="http://gulpjs.com">Gulp</a> is our build tool. Using tasks we define (in <code>gulp-file.coffee</code>), it handles all preprocessing of SASS and CoffeeScript files and allows us to build final, versioned files for the browser.</p>
+<h2 id="build-process">Build Process</h2>
+<p>The build process creates versioned files in the <code>/public</code> folder for the browsers consumption and updates any references to the files where applicable. Examples (where [hash] is an 8 character version checksum like &quot;9936ad41&quot;):</p>
+<ul>
+<li><code>/app/assets/manage/manage-controller.coffee</code> will be processed and concatenated with all other application JS files and saved to <code>/public/javascripts/app-[hash].js</code>. The <code>&lt;script/&gt;</code> tag in the main layout file (<code>/app/views/layouts/application.html.erb</code>) will be updated to match the newly generated URL.</li>
+<li><code>/bower-components/angular/angular.js</code> will be concatenated with all other vendor JS files and saved to <code>/public/javascripts/vendor-[hash].js</code>. The <code>&lt;script/&gt;</code> tag in the main layout file (<code>/app/views/layouts/application.html.erb</code>) will be updated to match the newly generated URL.</li>
+<li><code>/app/assets/manage/manage.html</code> will be moved to <code>/public/templates/manage-[hash].html</code>. Any angular routing config file that refers to this template will be updated to match the newly generated URL.</li>
+</ul>
+<h3 id="commands">Commands</h3>
+<p>If you just make a quick, one change to a front end resource (locales, html, css, js, images, fonts) run <code>gulp</code> to process the changes and then reload your browser when it's complete. If you plan on making multiple changes, run <code>gulp watch</code> first, and any following changes will be processed automatically. Typically, after pulling latest I run <code>gulp</code> followed by <code>gulp watch</code> to start with a clean slate and to catch any changes I make.</p>
+<h2 id="livereload">LiveReload</h2>
+<p>I <strong>highly</strong> recommend you <a href="http://feedback.livereload.com/knowledgebase/articles/86242-how-do-i-install-and-use-the-browser-extensions-">install the appropriate LiveReload plugin</a> for your browser(s) of choice. This will automatically reload your web browser after changes have been made and the related gulp tasks have completed. It's much quicker than the typical manual save/refresh approach.</p>
+<h2 id="having-problems">Having problems?</h2>
+<p>If you can't seem to get up and running (browser console errors, page not rendering etc), try starting with a clean slate by doing the following:</p>
+<ul>
+<li>Delete the <code>/bower_components</code> folder</li>
+<li>Delete the <code>/node_modules</code> folder</li>
+<li>run npm install</li>
+<li>run bower install</li>
+<li>run gulp</li>
+<li>run gulp watch</li>
+</ul>
+<p>At this point, you should have all the latest resources and be up and running. If you're still having issues, take a look at the <a href="https://github.com/GitHubAdmin/abaqis3/blob/master/troubleshooting.md">A3 Troubleshooting</a> guide.</p>

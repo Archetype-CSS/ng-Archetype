@@ -1,12 +1,5 @@
 'use strict';
 
-/**
- * @ngdoc function
- * @name ngArchetypeApp.controller:AboutCtrl
- * @description
- * # AboutCtrl
- * Controller of the ngArchetypeApp
- */
 angular.module('ngArchetypeApp')
   .controller('AboutCtrl', function ($scope) {
     $scope.awesomeThings = [

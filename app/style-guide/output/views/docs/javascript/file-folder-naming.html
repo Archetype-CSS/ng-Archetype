@@ -1,0 +1,43 @@
+<h1 id="a3-filefolder-structure-naming-conventions">A3 File/Folder Structure &amp; Naming Conventions</h1>
+<h2 id="tldr">Tl;Dr</h2>
+<p>This document seeks to answer the simple question, &quot;Where the F@#K is that file?!&quot;. Our approach is influenced by the <a href="http://cliffmeyers.com/blog/2013/4/21/code-organization-angularjs-javascript#modularity">&quot;Modularity&quot; example in this article</a>. For more information on modules, see the <a href="https://github.com/GitHubAdmin/abaqis3/blob/master/angular-styleguide.md#modules">Angular Style Guide</a>.</p>
+<h2 id="folder-structure">Folder Structure</h2>
+<p>Files are generally organized one of two ways.</p>
+<ul>
+<li>In a module folder that is specific to an application function (residents, MDS, users, etc), or...</li>
+<li>In a shared folder if it's a reusable resource (components, images, directives, services etc)</li>
+</ul>
+<pre><code>app/
+|__assets/
+   |__common/
+      |__fonts/
+      |__images/
+      |__javascripts/
+         |__directives/
+         |__filters/
+         |__services/
+         |__...
+   |__components/
+      |__facility-switch/
+      |__primary-navigation/
+      |__secondary-navigation/
+      |__...
+   |__manage/
+      |__residents/
+         |__nh-stays/
+         |__completed-assessments/
+         |__mds-assessments/
+         |__...
+      |__users/
+      |__mds/
+      |__...
+   |__assess/
+   |__analyze/
+   |__improve/
+   |__...</code></pre>
+<h2 id="filefolder-naming-conventions">File/Folder Naming Conventions</h2>
+<p>All file and folder names should be <code>spinal-case</code> (third party libraries are exempted). For example…</p>
+<ul>
+<li><code>/manage/qa-cycles/qa-cycles-module.js</code></li>
+<li><code>/manage/residents/residents-auto-merge.html</code></li>
+</ul>

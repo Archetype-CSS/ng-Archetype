@@ -1,0 +1,216 @@
+<h1 id="architecture">Architecture</h1>
+<blockquote>
+<p>&quot;By categorizing CSS rules we begin to see patterns and can define best practices around each of these patterns&quot; - <a href="http://smacss.com/book/categorizing">Jonathan Snook</a></p>
+</blockquote>
+<h2 id="directory-structure">Directory Structure</h2>
+<p>Most of Archetype's modules (utilities, objects, and components) are managed with <a href="http://bower.io">Bower</a> within the <code>bower_components/</code> directory. It is a best practice to <a href="http://addyosmani.com/blog/checking-in-front-end-dependencies/">version control Front-End packages</a>. These modules are <code>@import</code>-ed into a project, customized to your needs, and controlled by <a href="https://github.com/Archetype-CSS/Archetype">Archetype</a>.</p>
+<pre>
+Archetype/ 
+|- node_modules/
+|- bower_components/
+|
+|– sass/ 
+|   |– _main.scss
+|   |- components/
+|   |- layout/
+|   |- style-guide/
+|   |- temp/
+|
+|- style-guide/   
+|- performance/
+|
+|- .csslintrc
+|- .scss-lint.yml
+|- .travis.yml
+|- bower.json
+|- config.rb
+|- Gruntfile.js
+|- package.json
+|- phantomas-config.json
+|- README.md
+</pre>
+
+<h3 id="sassmain.scss"><code>/sass/main.scss</code></h3>
+<p>Partials should be used for all styles. These partials are then <code>@import</code>-ed into <code>main.scss</code> which provides the opportunity to easily enable/disable design system modules as needed. When including partials within your <code>main.scss</code> stylesheet, leave off the file extension to allow for easier conversion between Sass and SCSS syntaxes if you ever need to do so <a href="addendum.md">[17]</a>. This file also contains styles and settings that apply to the entire project, as well as <a href="http://compass-style.org/">compass</a> configuration and compass plugins.</p>
+<p>Example: <a href="https://github.com/Archetype-CSS/Archetype/blob/master/sass/main.scss">Archetype's main.scss</a></p>
+<h3 id="sasscomponents"><code>/sass/components/</code></h3>
+<p>Components are modular and reusable entities of a design system. Everything within the design system is a component. Each component is maintained within its own repository, managed with <a href="http://bower.io">Bower</a>, and <code>@import</code>-ed into <code>main.scss</code>. All objects are prefixed with <code>o-</code>. They are installed using <code>bower install Archetype-c-[object-name]</code>. Archetype components have basic, default structure and skin styles applied for rapid prototyping. These default styles can be easily over-ridden. Archetype components are the equivalent to Modules within the <a href="http://smacss.com/">SMACSS</a> methodology. Sub objects are defined in the same partial as the object they extend/modify.</p>
+<p>Example: <a href="https://github.com/Archetype-CSS?query=Archetype-c-">Archetype's Components</a></p>
+<h3 id="sassbower_components"><code>/sass/bower_components</code></h3>
+<p>This is where all Archetype modules are downloaded by <a href="http://bower.io">Bower</a>. It is a best practice to <a href="http://addyosmani.com/blog/checking-in-front-end-dependencies/">version control Front-End packages</a>.</p>
+<h3 id="sasslayout"><code>/sass/layout/</code></h3>
+<p>Layout styles provide structure to mobile-first, linear content. These styles are used to progressively enhance the basic layout when device capability and/or viewport allow. Because layout is treated as an enhancement, these styles are kept separate from the components they enhance and are applied with their own class. Each component's layout is defined in its own partial inside the layout directory. Layout stylesheets are named by prefixing the component's name with <code>l-</code> in order to explicitly define the relationship between layout and component.</p>
+<h3 id="sasstemp"><code>/sass/temp/</code></h3>
+<p>The temporary directory contains any styles that haven't yet been properly defined and organized within the project's architecture. This where any hacks or quick fixes belong. Each 'fix' placed within this directory should be given its own partial and should be accompanied by a corresponding issue properly tagged and filed in the project's repository so that it can be incorporated into the code base at a later date. Preventing sub-standard code from being committed into the code base helps to prevent unnecessary depreciation as well as unintentionally introducing bugs by keeping these 'fixes' quarantined within the temp directory. <a href="addendum.md">[25]</a>.</p>
+<hr />
+<h1 id="object-oriented-css-oocss">Object Oriented CSS (OOCSS)</h1>
+<blockquote>
+<p>&quot;[A] CSS “object” is a repeating visual pattern which can be abstracted into an independent snippet of HTML CSS and possibly JavaScript. Once created an object can then be reused throughout a site.&quot; - <a href="https://twitter.com/stubbornella">Nichole Sullivan</a></p>
+</blockquote>
+<h3 id="two-main-principles-of-oocss">Two Main Principles of OOCSS</h3>
+<ol type="1">
+<li><strong>Separation of Structure from Skin</strong> - distinguish between structure styles (box-model) and skin styles (color, font, gradients) and abstract these styles in class-based modules to allow re-use <a href="addendum.md">[6]</a>.</li>
+<li><strong>Separation of Container and Content</strong> - avoid all explicit parent-child relationship within style declarations so that a component's style is not dependant upon its container which allows the module to be reused <a href="addendum.md">[6]</a>.</li>
+</ol>
+<p>These are the basic concepts Archetype modules are built on. Also see: <a href="/designPrinciples.md">Archetype Design Principles</a>.</p>
+<h3 id="utilities">Utilities</h3>
+<p>Archetype utilities are low-level abstractions used globally throughout a design system via a class, function, or mixin to provide specific functionality. Utilities are maintained within their own repository, managed with <a href="http://bower.io">Bower</a>, and are <code>@import</code>-ed within <code>main.scss</code>. All utilities are prefixed with <code>Archetype-u-</code>. They are installed using <code>bower install Archetype-u-[utility-Name]</code>. Utilities are applied within the stylesheets, rather than the markup. They reside within <code>bower_components</code> once installed.</p>
+<p>Example <a href="https://github.com/Archetype-CSS?query=Archetype-u-">Archetype Components</a></p>
+<h3 id="objects">Objects</h3>
+<p>Object styles are generic abstractions that can be extended to build a component. They are styles which remain consistent and unchanged within a component regardless of skin or structure and are abstracted to be used as a foundation for building UI components. The classic OOCSS example is the media-object <a href="addendum">[16]</a>. Each object is maintained within its own repository, managed with <a href="http://bower.io">Bower</a>, and <code>@import</code>-ed into <code>main.scss</code>. All objects are prefixed with <code>Archetype-o-</code>. They are installed using <code>bower install Archetype-o-[object-name]</code>. They reside within <code>bower_components</code> once installed.</p>
+<p>Example <a href="https://github.com/Archetype-CSS?query=Archetype-o-">Archetype Components</a></p>
+<h4 id="object-modifiers">Object Modifiers</h4>
+<p>An object modifier in Archetype is a context-dependant sibling of an object that performs a certain function and is represented by an additional HTML class attribute on the element. Object modifiers are denoted by the use of <code>__</code> (double underscores) for example, <code>.objectName__modifierName</code> in order to maintain context, maintain control of the cascade, and avoid location-dependant selectors <a href="addendum.md">[2]</a>. Object modifiers extend or provide minor overrides to the object and is often applied to the same HTML element or a direct decendent. An object modifier is defined in the same partial as the object it modifies.</p>
+<h3 id="components">Components</h3>
+<p>A discrete and independent entity designed to exist as a stand alone module without any dependencies to its container. A component can be simple or compound (contain one or more components) and it should be able to be relocated on the page without breaking <a href="addendum">[1]</a>. Example components include buttons, navigation, etc. An example of a compound component would be a search block composed of an input and a submit button <a href="addendum.md">[2]</a>, but these are still considered components. Components are unique in the way that they are installed via <a href="http://bower.io">Bower</a>, but can still be modified to accept custom styles. This is done by redefining the components settings file (which contains a <a href="http://sass-lang.com/documentation/file.SASS_REFERENCE.html#maps">Sass Map</a> of all the CSS property value pairs passed to the component). The partial containing a component's redefined settings should be properly namespaced and located in the <code>components</code> directory.</p>
+<p>Example <a href="https://github.com/Archetype-CSS?query=Archetype-c-">Archetype Components</a></p>
+<p>In order to maintain modularity a component must adhere to the following:</p>
+<ul>
+<li>Component styles must not declare any explicit size constraints, allowing the module to scale to it's parent container. A component can be placed inside a layout component, i.e. a grid; or extended with a layout class, but it must never be given an explicit width.</li>
+<li>A component must remain independent from siblings, children, and parents allowing for arbitrarily placement within a design system. This means that CSS ID Selectors must be avoided to allow components to remain non-unique (able to appear on the same page more than once).</li>
+<li>A component's name must be unique to the project to ensure that only instances of the same component can have the same name. Re-using a component also means re-using its behavior. To use the same component with differing behavior requires a new component.</li>
+<li>Selectors must remain context free and un-coupled to HTML by avoiding the use of elements within CSS selectors. HTML element styles are scoped by placing a class on either the element itself or on a parent container. This means all HTML element styles are opt-in (opposed to opt-out) making the only &quot;default&quot; HTML element styles are those applied by <a href="http://necolas.github.io/normalize.css/">normalize</a>, thus avoiding redundant overrides. <a href="addendum.md">[27]</a> <a href="addendum.md">[28]</a></li>
+</ul>
+<h4 id="state">State</h4>
+<p>A state is a variant of a component that is triggered by an action or behavior. State styles are applied dynamically as an additional HTML class attribute on the component's root or child HTML element. State based styles are indicated with the <code>is-</code> prefix, for example <code>.is-active</code> or <code>.is-disabled</code>. These style declarations are shared by CSS and JS files <a href="addendum.md">[1]</a> and are defined with the component in the same partial. Multiple states may be used at once on the same component. In Archetype, state styles are defined in the same component partial of which they modify. For a good sample, see: <a href="https://github.com/Archetype-CSS/Archetype-c-button">Archetype-c-button</a></p>
+<h2 id="component-composition-oocss-classes">Component Composition (OOCSS Classes)</h2>
+<blockquote>
+<p>component composition is the building of the discrete modules of a system using common, object oriented, abstractions represented as an additional HTML class attribute.</p>
+</blockquote>
+<p>Building complex components with smaller, abstracted code blocks leads to more reusable code, easier debugging, and a DRYer code base while cutting down on repetition and increasing performance. It also allows for easier prototyping within the browser when skin and structure styles can be applied to a component separately. A component is comprised of object, structure, and skin. Class naming and selector construct is very important. This syntax and naming convention illustrates the intention of a class and its relationship to others.</p>
+<p>Components use a multi-class pattern in order to allow for easier contextual based adjustments when necessary, and to help simplify class and variable names<a href="addendum.md">[3]</a>. For example, structure, skin, and state styles are extended via their own class, rather than attaching a suffix to an existing component class.</p>
+<p>In this way a component can be thought of as a specific combination of classes. Changing even one of these classes constitutes an entirely different component. For example, the same button component with two different skin classes is actually two different components. Additionally, an object could be represented as a single class or even a Sass <code>@extend</code> such as a <code>%u-cf</code>. A component does not have to be a visual entity.</p>
+<h3 id="structure-styles">Structure Styles</h3>
+<p>Styles which control a component's physical structure. Structure styles include any properties involving spacing which could potentially affect surrounding elements on the page, i.e. box-model properties. Structure classes extend an object class. There must be no dependencies between structure and skin.</p>
+<h3 id="skin-styles">Skin Styles</h3>
+<p>Styles which control a component's visual appearance. Skin styles include any properties involving color, typography, gradients, shadows, etc. Skin classes extend an object class. There must be no dependencies between skin and structure.</p>
+<p><em>Note: Sometimes the distinction between structure and skin is non-trivial. For example, the arrival of border-box has greatly simplified the box-model, but makes the border property a bit more difficult to define in this context because it no longer contributes to an element's width (structure). The best way to handle this is to split up border property defining <code>border-width</code> and <code>border-style</code> as structure and <code>border-color</code> as skin. An example that makes this more clear is when building a tab component where the structure of the tab requires a transparent bottom border for the active tab and the skin of the tab requires a light gray border.</em></p>
+<h3 id="layout-styles">Layout Styles</h3>
+<p>Styles that define how/where a component sits on the page. A component's layout class uses the <code>l-</code> prefix followed by the component's name <a href="addendum.md">[1]</a>. Layout styles include width and grid layout.</p>
+<ul>
+<li>All components are fluid by nature and should never be given explicit width or height restraints. A component's width is determined by its parent container or grid system.</li>
+<li>Heights should only be explicitly defined for elements which had dimensions before they entered the system; i.e. image, video. In all other cases use <code>line-height</code> instead which is far more flexible <a href="addendum">[13]</a>.</li>
+<li>The grid system should never have styles or box-model properties directly applied - grid items contain content, but are not content in of themselves.</li>
+</ul>
+<h3 id="icons">Icons</h3>
+<ul>
+<li>Icons should be styled as independent entities to allow their use in any component without the need for duplication of code.</li>
+<li>Icon components are prefixed with <code>i-</code>.</li>
+<li>Icon styles should be split into structure and skin (<code>.i-small</code> &amp; <code>.i-primary</code> classes) in order to allow for maximum flexibility and minimal code repetition <a href="addendum.md">[1]</a>.</li>
+<li>Use <a href="http://compass-style.org/help/tutorials/spriting/">Compass to manage sprits</a>.</li>
+<li>Sprited Icons should be added to empty elements that have their text hidden off canvas.</li>
+<li>Use <a href="http://compass-style.org/reference/compass/helpers/urls/">Compass URL Helpers</a> to manage asset directories</li>
+</ul>
+<h3 id="javascript">JavaScript</h3>
+<ul>
+<li>Custom <code>data-</code> attributes are reserved for applying dynamic behavior to a component. This keeps behavior out of the class attribute where component composition takes place.</li>
+<li>A <code>data-</code> attribute should never be referenced in a stylesheet. They are used exclusively for JavaScript files <a href="addendum.md">[3]</a>. Keeping these concerns separated makes development easier.</li>
+<li>In cases where <code>data-</code> atributes are undesirable, use a <code>.js-</code> prefix to communicate that this class adds behavior and must not be styled.</li>
+</ul>
+<h3 id="qa">QA</h3>
+<ul>
+<li>The only acceptable use of the HTML ID attribute is for the integration of quality assurance tooling. Dedicating the ID attribute, as well as name-spacing these hooks with <code>qa-</code> ensures that they will never be used for any other purpose or accidentally removed from the markup.</li>
+<li>The prefix indicates the ID’s purpose, the number appended after the dash can be dynamically generated so every element has a unique identifier to build testing scripts for.</li>
+</ul>
+<h2 id="class-semantics">Class Semantics</h2>
+<blockquote>
+<p>&quot;We shouldn't be afraid of making the connections between layers clear and explicit rather than having class names rigidly reflect specific content. Doing this doesn't make classes &quot;unsemantic,&quot; it just means that their semantics are not derived from the content.&quot; - <a href="https://twitter.com/necolas">Nicolas Gallager</a></p>
+</blockquote>
+<p>Class names should remain content-independent<a href="addendum.md">[3]</a>. By avoiding tightly coupled class names and content semantics, code is more easily reused and modularized to allow for increased scalability of your architecture. Because the most reusable code components are those with content-independent class names, class names should be derived from repeating structural or functional patterns and never from the content.</p>
+<ol type="1">
+<li>Increasing semantic value of a section of html and content <a href="addendum">[1]</a>
+<ul>
+<li>Content-layer semantics are served by html elements and attributes <a href="addendum">[3]</a></li>
+</ul></li>
+<li>Class names communicate useful information to developers and serve hooks for CSS or JavaScript <a href="addendum.md">[3]</a>.
+<ul>
+<li>Decrease the expectation of a specific HTML structure <a href="addendum">[1]</a>.</li>
+</ul></li>
+</ol>
+<p>The important distinction is that the HTML class attributes are semantic in the way they convey meaning to the developer, rather than the content. Content receives it's semantic value from its markup (HTML tags and ARIA attributes). Code receives its semantic value from its classes.</p>
+<h3 id="selector-construct-and-naming-conventions">Selector Construct and Naming Conventions</h3>
+<p>Selector construct must explicitly communicate the context and function of the entity being named. Also, selector construct must be consistently applied to allow for efficient use of grep and more meaningful diffs. The BEM Methodology <a href="addendum.md">[2]</a> and interpretations of BEM <a href="addendum.md">[3]</a> <a href="addendum.md">[13]</a> <a href="addendum.md">[26]</a> make use of an efficient system to accomplish these goals by explicitly communicating the function and context of the entity being named, as well as its relationship to both child and parent components while avoiding deeply nested selectors that tie content to container and make assumptions about markup. In this way, a BEM-like system helps to reinforce our primary objective of modularity. Admittedly, there is an element of added complexity, but the sacrifice of simple selectors in order to preserve objected oriented principles is well worth it, especially considering that the GZIP algorythm handles repetition extremely well.</p>
+<p>An effective naming convention explicitly communicates the context and function of the entity being named. Archetype relies on a structured, BEM-like<a href="2">[2]</a> naming convention for building class names using meaningful hyphens, underscores, and cammelCase syntax to communicate the relationship between classes and their place within the system. There is a major division between objects, components, and utilities, as well as a minor separation of responsibilities built on top.</p>
+<h3 id="naming-pattern">Naming Pattern</h3>
+<p>This naming pattern is inspired by the BEM Methodology <a href="addendum.md">[2]</a> as well as several interpretations by other developers <a href="addendum.md">[3]</a> <a href="addendum.md">[26]</a>.</p>
+<p><strong>Object:</strong> represents the higher-level abstraction of a component</p>
+Naming Pattern:
+<pre>
+<code>
+.o-objectName {...}
+</code>
+</pre>
+<p>Example:</p>
+<p>** insert idio template call to nav object here **</p>
+<p><strong>Object Modifier:</strong> a minor modification of an object</p>
+<p>Naming Pattern:</p>
+<pre>
+<code>
+.o-object__objectModifier {...}
+</code>
+</pre>
+
+<p>Example:</p>
+<p>** insert idio template call to nav__vertical object modifier here **</p>
+<p><strong>Component:</strong> multi-class pattern for creating discrete UI modules</p>
+<p>Naming Pattern:</p>
+<pre>
+.primaryNav {...}
+.primaryNav__item {...}
+</pre>
+
+<p>Example:</p>
+<p>** insert idio template call to component example (button?) here **</p>
+<p><strong>State:</strong> represents a change in the component's state</p>
+<p>Naming Pattern:</p>
+<pre>
+<code>
+.component--extension {
+  & .is-active {...}
+}          
+</code>
+</pre>
+
+<p>Example:</p>
+<p>** insert idio template call to button component here **</p>
+<p><strong>Component Extension:</strong> used to apply skin and/or structure styles to a component</p>
+<p>Naming Pattern:</p>
+<pre>
+.primaryNav--structure {
+  // structure styles extending the primaryNav component
+}
+
+.primaryNav--skin {
+  // skin styles extending the primaryNav component
+}
+</pre>
+
+<p>Example:</p>
+<p>** insert idio template call to component extension example (button?) here **</p>
+<p><strong>Layout:</strong> styles that define how and where a component is placed on the page</p>
+<p>Naming Pattern:</p>
+<pre>
+.l-primaryNav {
+  // primaryNav layout styles here
+}
+</pre>
+
+<p>Example:</p>
+<p>** insert idio template call to component example (button?) here **</p>
+<h3 id="icons-1">Icons</h3>
+<p>Example:</p>
+<pre><code>&lt;span class=&quot;i-account&quot;&gt;My Account&lt;/span&gt;</code></pre>
+<h3 id="javascript-1">JavaScript</h3>
+<p>Example:</p>
+<pre>
+<code>
+<ul class="nav nav__vertical primaryNav--large primaryNav--primary l-primaryNav" data-nav="primaryNav">
+  <li class="primaryNav__item is-active">...</li>
+</ul>
+</code>
+</pre>
+
+
+<h3 id="qa-1">QA</h3>
+<p>Example:</p>
+<pre><code>&lt;button id=&quot;qa-1234&quot; class=&quot;btn btn--large btn--success&quot;&gt;Click Here Stupid&lt;/button&gt;</code></pre>
